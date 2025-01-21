@@ -81,6 +81,10 @@ const MyChats = () => {
     }
   }, [user]);
   const getSender = (user: UserState, users: any[]) => {
+    console.log(user,"this is user", users)
+    if (users.length < 2) {
+    return 'User'
+  }
     return users[0]._id === user._id ? users[1].username : users[0].username;
   };
 
@@ -162,16 +166,6 @@ const getImage = (user: UserState, users: any[]) => {
   }
     return users[0]._id === user._id ? users[1].picture : users[0].picture;
   };
-
-
-
-
-
-
-
-
-
-
 
 
   return (
