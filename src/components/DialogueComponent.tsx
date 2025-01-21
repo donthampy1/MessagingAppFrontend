@@ -47,11 +47,9 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
     const { _id } = user;
     console.log(_id);
     try {
-      console.log(user);
-      const token = await getToken(); // Get the JWT
-      console.log(token, "tokenjdhvh ");
+      const token = await getToken(); 
       const response = await axios.get(
-        `https://messagingappbackend-4.onrender.com/api/user/search?search=${search}&userId=${user._id}`, // userId as query parameter
+        `https://messagingappbackend-4.onrender.com/api/user/search?search=${search}&userId=${user._id}`, 
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -61,7 +59,6 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       );
       setLoading(false);
       setSearchResult(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("error", error);
     }

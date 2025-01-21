@@ -52,7 +52,7 @@ const MyChats = () => {
   const dispatch = useDispatch();
 
   const handleChatClick = (chat: any) => {
-    dispatch(setSelectedChat(chat)); // Dispatch the selected chat data
+    dispatch(setSelectedChat(chat)); 
   };
 
 
@@ -92,10 +92,10 @@ const MyChats = () => {
 
     try {
       setLoading(true);
-      const token = await getToken(); // Get the JWT
+      const token = await getToken(); 
       console.log(token, "tokenjdhvh ");
       const response = await axios.get(
-        `http://localhost:2500/api/user/search?search=${search}&userId=${user._id}`, // userId as query parameter
+        `https://messagingappbackend-4.onrender.com/api/user/search?search=${search}&userId=${user._id}`, 
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -148,7 +148,6 @@ const MyChats = () => {
 
   };
   const handleGroup = (user: UserState) => {
-    console.log("ldjbg", user);
     if (selectedUsers.includes(user)) {
       return;
     }

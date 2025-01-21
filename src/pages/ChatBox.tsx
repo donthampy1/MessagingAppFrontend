@@ -132,28 +132,12 @@ const ChatBox = () => {
   };
 
 
- 
-
-
-
-
 useEffect(() => {
   socket.on("message recieved", (newMessageRecieved:any) => {
     if (selectedChatCompare && selectedChatCompare._id === newMessageRecieved.chat._id) {
  setMessages([...messages, newMessageRecieved])    }
   })
-
-  
 },[])
-
-
-
-
-  
-
-
-
-
 
   return (
     <>
