@@ -1,8 +1,7 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
+  
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -13,7 +12,6 @@ import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { access } from "fs";
 import UserListItem from "./ui/UserListItem";
 import { setChat } from "../store/chatSlice";
 
@@ -37,7 +35,6 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState<boolean[]>();
   const { getToken } = useAuth();
   const user: UserState | null = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();

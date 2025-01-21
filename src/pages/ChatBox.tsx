@@ -2,25 +2,20 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState,  useEffect } from 'react';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { MoreVertical } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizontal } from "lucide-react";
 import { Mic } from "lucide-react";
 import ChatMessages from "@/components/ChatMessages";
 import io, { Socket } from "socket.io-client"
-import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { useDispatch } from 'react-redux';
-import { addNotification, removeNotification, clearNotifications } from '../store/notificationSlice';
 
 
 
@@ -44,13 +39,12 @@ const ChatBox = () => {
   const [newMessage, setNewmessage] = useState("");
   const { getToken } = useAuth();
   const [socketConnected, setSocketConnected] = useState<Boolean>(false)
-    const dispatch = useDispatch();
     
 
 
  useEffect(() => {
   socket = io(EndPoint)
-  console.log("kjnjd",user)
+  console.log("kjnjd",user,socketConnected,loading,notification)
   socket.emit("setup", user)
   socket.on("connected",()=> setSocketConnected(true))
   
