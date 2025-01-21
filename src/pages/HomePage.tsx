@@ -1,4 +1,4 @@
-//import React from 'react'
+
 import { useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import axios from 'axios'
@@ -21,14 +21,17 @@ const HomePage = () => {
   useEffect(() => {
     if (user) {
       const sendUserData = async () => {
+        
         try {
           const userData = {
             email: user.emailAddresses[0]?.emailAddress,
-            username: user.username || user.firstName 
+            username: user.username || user.firstName,
+            picture: user.imageUrl, 
           }
           const response = await axios.post('http://localhost:2500/api/user/login', userData);
           console.log('User data sent successfully:', response.data);
                     dispatch(setUser(response.data.user));
+                    
 
         } catch (error) {
           console.error('Error sending user data:', error);
@@ -46,7 +49,7 @@ const HomePage = () => {
       <SidebarInset>
         
        
-        <div className="flex h-screen justify-between p-5">
+        <div className="flex h-screen border-black p-10 bg-black justify-between gap-4 ">
            <MyChats/>
            <ChatBox/>
         </div>

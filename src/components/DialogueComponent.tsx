@@ -72,7 +72,6 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
   };
 
   const accessChat = async (userId: string) => {
-    console.log("dhfnvdhf");
     const token = await getToken(); // Get the JWT
     const init = user._id;
     try {
@@ -87,7 +86,6 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
           withCredentials: true, // Include credentials like cookies if needed
         }
       );
-      console.log(response.data, "hfhdbhjd");
       dispatch(setChat(response.data));
 
       console.log(response.data, "Response from server");

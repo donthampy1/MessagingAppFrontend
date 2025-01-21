@@ -4,6 +4,7 @@ interface UserState {
   _id: string;
   email: string;
   username: string;
+  picture:string;
   createdAt: string;
   updatedAt: string;
 }
@@ -12,6 +13,7 @@ const initialState: UserState = {
   _id: '',
   email: '',
   username: '',
+  picture:'',
   createdAt: '',
   updatedAt: '',
 };

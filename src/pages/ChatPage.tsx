@@ -26,7 +26,7 @@ const ChatPage = () => {
     } catch (error) {
       console.error("Error fetching chats:", error);
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
   useEffect(() => {

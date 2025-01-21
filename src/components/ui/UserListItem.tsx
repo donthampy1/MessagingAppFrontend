@@ -7,6 +7,7 @@ import { Avatar,  AvatarImage } from "@/components/ui/avatar"
 
 
 interface UserState {
+  picture: string | undefined;
   _id: string;
   email: string;
   username: string;
@@ -20,11 +21,10 @@ interface UserListItemProps {
 }
 
 const UserListItem: React.FC<UserListItemProps> = ({ user, handleFunction }) => {
-  // Now you can use the user object and the handleFunction here
   return (
      <Alert onClick={handleFunction} className="flex items-center space-x-4 p-2 cursor-pointer">
       <Avatar>
-        <AvatarImage src='https://github.com/shadcn.png' alt="User Avatar" />
+        <AvatarImage src={user.picture} alt="User Avatar" />
       </Avatar>
 
       <div className="flex flex-col">

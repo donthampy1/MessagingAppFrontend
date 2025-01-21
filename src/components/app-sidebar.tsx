@@ -12,41 +12,38 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import AiChatComponent from "./AiChatComponent";
+import { UserPlus, Bot, LogOut } from 'lucide-react';
+
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isAiChatOpen, setIsAiChatOpen] = useState(false);
+
 
   return (
     <>
-      <Sidebar collapsible="icon" className="flex bg-black" {...props}>
-        <SidebarHeader>
-          
-        </SidebarHeader>
-        <SidebarContent>
-          <div className="">
+      <Sidebar
+        collapsible="icon"
+        className="" // Black background and white text
+        {...props}
+      >
+        
+        <SidebarContent className="flex flex-col items-center justify-center"> {/* Center content */}
+          <div className="flex flex-col bg-white p-4  rounded-xl text-lg space-y-4"> {/* Add spacing between buttons */}
             <UserButton />
-            <Button variant="ghost" onClick={() => setIsDialogOpen(true)}>
-              <Avatar>
-                <AvatarImage
-                  src="https://res.cloudinary.com/dzxzgnnax/image/upload/v1737018856/uhogqae6nkjmgkip92g0.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </Button>
+              <UserPlus onClick={() => setIsDialogOpen(true)} className="h-6 w-6  cursor-pointer"/>
+              <Bot onClick={() => setIsAiChatOpen(true)} className="h-6   w-6 cursor-pointer"/>
+            <SignOutButton>
+                <LogOut className="h-6   w-6 cursor-pointer"/>
+            </SignOutButton>
           </div>
         </SidebarContent>
-        <SidebarFooter>
-          <SignOutButton>
-              <img
-                src="https://res.cloudinary.com/dzxzgnnax/image/upload/v1736950222/g96nut8r4s7clqkw4f2n.png"
-                alt="@shadcn"
-              />
-          </SignOutButton>
-        </SidebarFooter>
-        <SidebarRail />
+       
+      
       </Sidebar>
       <DialogComponent open={isDialogOpen} onOpenChange={setIsDialogOpen} />
+      <AiChatComponent open={isAiChatOpen} onOpenChange={setIsAiChatOpen} />
     </>
   );
 }

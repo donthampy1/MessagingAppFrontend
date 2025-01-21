@@ -26,11 +26,19 @@ import {
 } from "@/components/ui/dialog";
 import UserListItem from "@/components/ui/UserListItem";
 import UserBadge from "@/components/ui/UserBadge";
+import { setSelectedChat } from '@/store/currentChatSlice';
+
+
+
+
+
+
 
 interface UserState {
   _id: string;
   email: string;
   username: string;
+  picture:string;
   createdAt: string;
   updatedAt: string;
 }
@@ -45,16 +53,18 @@ const MyChats = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<UserState[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<UserState[]>([]);
+  const dispatch = useDispatch();
 
-  console.log(user._id, "uhbuhbub");
+  const handleChatClick = (chat: any) => {
+    dispatch(setSelectedChat(chat)); // Dispatch the selected chat data
+  };
+
 
   const fetchChats = async () => {
     try {
-      console.log(user._id);
-      const token = await getToken(); // Get the JWT
-      console.log(token, "tokenjdhvh ");
+      const token = await getToken(); 
       const response = await axios.get(
-        `http://localhost:2500/api/chat?userId=${user._id}`, // userId as query parameter
+        `http://localhost:2500/api/chat?userId=${user._id}`, 
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -105,8 +115,41 @@ const MyChats = () => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("ldjbg");
+  const handleSubmit = async () => {
+
+    if(!groupChatName ||!selectedUsers){
+      return
+    }
+    try{
+       const token = await getToken(); // Get the JWT
+      console.log(token, "tokenjdhvh ");
+      const response = await axios.post(
+        `http://localhost:2500/api/chat/group`,
+        {
+          name: groupChatName,
+          users: JSON.stringify(selectedUsers.map((user) => user._id)),
+          init: user._id
+        }, 
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+          },
+          withCredentials: true,
+        }
+      )
+
+      setchatdatas([response.data,...chatdatas])
+
+
+
+
+    }catch(error){
+      console.log(error)
+    }
+
+
+
+
   };
   const handleGroup = (user: UserState) => {
     console.log("ldjbg", user);
@@ -115,13 +158,31 @@ const MyChats = () => {
     }
     setSelectedUsers((prevUsers) => [...prevUsers, user]);
   };
-  const handleDelete = (user: UserState) => {
-    console.log(user);
+const handleDelete = (user: UserState) => {
+  setSelectedUsers((prevUsers) => prevUsers.filter((u) => u._id !== user._id));
+}
+const getImage = (user: UserState, users: any[]) => {
+  if (users.length < 2) {
+    return 'https://github.com/shadcn.png'
+  }
+    return users[0]._id === user._id ? users[1].picture : users[0].picture;
   };
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
-      <Card>
-        <CardHeader>
+      <Card className="w-1/3 overflow-y-auto">
+        <CardHeader className="">
           <div className="flex justify-between items-center">
             <CardTitle>Chats</CardTitle>
             <Button onClick={() => setIsDialogOpen(true)}>
@@ -130,46 +191,46 @@ const MyChats = () => {
           </div>
         </CardHeader>
 
-        {chatdatas ? (
-          <CardContent>
-            {chatdatas.map((chat: any, index: number) => (
-              <Alert
-                key={index}
-                className="flex items-center space-x-4 p-2 cursor-pointer"
-              >
-                <Avatar>
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="User Avatar"
-                  />
-                </Avatar>
+        {chatdatas && chatdatas.length > 0 ? (
+  <CardContent>
+    {chatdatas.map((chat: any, index: number) => (
+      <Alert
+        key={index}
+        className="flex items-center space-x-4 p-2 cursor-pointer"
+        onClick={() => handleChatClick(chat)} 
+      >
+        <Avatar>
+          <AvatarImage
+            src={getImage(user, chat.users)}
+            alt="User Avatar"
+          />
+        </Avatar>
+        <div className="flex flex-col">
+          <AlertTitle className="font-semibold">
+            {!chat.isGroupChat
+              ? getSender(user, chat.users)
+              : chat.chatName}
+          </AlertTitle>
+          <AlertDescription className="text-sm text-gray-500">
+            {user.email}hoyiyiy
+          </AlertDescription>
+        </div>
+      </Alert>
+    ))}
+  </CardContent>
+) : (
+  <CardContent>
+    <p>Loading...</p>
+  </CardContent>
+)}
 
-                <div className="flex flex-col">
-                  <AlertTitle className="font-semibold">
-                    {!chat.isGroupChat
-                      ? getSender(user, chat.users)
-                      : chat.chatName}
-                  </AlertTitle>
-                  <AlertDescription className="text-sm text-gray-500">
-                    {user.email}
-                  </AlertDescription>
-                </div>
-              </Alert>
-            ))}
-          </CardContent>
-        ) : (
-          <CardContent>
-            <p>Loading...</p>
-          </CardContent>
-        )}
       </Card>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} modal={true}>
         <DialogContent className=" w-96">
           <DialogHeader>
             <DialogTitle> Create new groupchat</DialogTitle>
           </DialogHeader>
-          <div className="gap-2">
-            <form>
+          <div className=" flex flex-col gap-2">
               <Input
                 placeholder="Chat Name"
                 onChange={(e) => setgroupChatName(e.target.value)}
@@ -187,7 +248,6 @@ const MyChats = () => {
                 placeholder="Add Users"
                 onChange={(e) => handleSearch(e.target.value)}
               />
-              <p>render selected users </p>
               {loading ? (
                 <p>Loading...</p>
               ) : (
@@ -202,7 +262,7 @@ const MyChats = () => {
                   ))
               )}
               <Button onClick={handleSubmit}> Create</Button>
-            </form>
+           
           </div>
           <div></div>
         </DialogContent>
