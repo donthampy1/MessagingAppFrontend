@@ -22,9 +22,12 @@ const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    // @ts-ignore
     setChat: (state, action: PayloadAction<ChatState>) => {
       return action.payload
     },
+        // @ts-ignore
+
     clearChat: (state) => {
       return initialState
     },
