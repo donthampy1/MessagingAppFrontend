@@ -1,17 +1,12 @@
 import * as React from "react";
 
 import { UserButton, SignOutButton } from "@clerk/clerk-react";
-import { Button } from "@/components/ui/button";
 import DialogComponent from "./DialogueComponent";
 import { useState } from "react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import AiChatComponent from "./AiChatComponent";
 import { UserPlus, Bot, LogOut } from 'lucide-react';
 

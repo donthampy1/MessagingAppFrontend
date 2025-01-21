@@ -4,7 +4,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "./ui/input";
@@ -13,8 +12,6 @@ import {  SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 
 interface AiChatComponentProps {
   open: boolean;
@@ -25,7 +22,6 @@ const AiChatComponent: React.FC<AiChatComponentProps> = ( { open,
   onOpenChange,}) => {
   const [query, setQuery] = useState<any>()
   const { getToken } = useAuth();
-    const user = useSelector((state: RootState) => state.user);
     const [chatHistory, setChatHistory] = useState<any>([])
 
 

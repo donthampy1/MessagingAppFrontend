@@ -22,9 +22,12 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // @ts-ignore
     setUser: (state, action: PayloadAction<UserState>) => {
       return action.payload
     },
+    // @ts-ignore
+
     clearUser: (state) => {
       return initialState;
     },
