@@ -1,7 +1,6 @@
 import {
   Dialog,
   DialogContent,
-  
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -52,7 +51,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       const token = await getToken(); // Get the JWT
       console.log(token, "tokenjdhvh ");
       const response = await axios.get(
-        `http://localhost:2500/api/user/search?search=${search}&userId=${user._id}`, // userId as query parameter
+        `https://ourchat-delta.vercel.app/api/user/search?search=${search}&userId=${user._id}`, // userId as query parameter
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -73,7 +72,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
     const init = user._id;
     try {
       const response = await axios.post(
-        `http://localhost:2500/api/chat`, // Replace with your endpoint
+        `https://ourchat-delta.vercel.app/api/chat`, // Replace with your endpoint
         { userId, init }, // Data payload for POST request
         {
           headers: {

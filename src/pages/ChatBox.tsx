@@ -19,7 +19,7 @@ import io, { Socket } from "socket.io-client"
 
 
 
-const EndPoint = "http://localhost:2500"
+const EndPoint = "https://ourchat-delta.vercel.app"
 let socket: Socket<any>,selectedChatCompare: { _id: any; }
 
 
@@ -60,7 +60,7 @@ const ChatBox = () => {
       const token = await getToken();
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:2500/api/message/${selectedChat._id}`,
+        `https://ourchat-delta.vercel.app/api/message/${selectedChat._id}`,
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,

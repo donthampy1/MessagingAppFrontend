@@ -60,7 +60,7 @@ const MyChats = () => {
     try {
       const token = await getToken(); 
       const response = await axios.get(
-        `http://localhost:2500/api/chat?userId=${user._id}`, 
+        `https://messagingappbackend-4.onrender.com/api/chat?userId=${user._id}`, 
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -120,7 +120,7 @@ const MyChats = () => {
        const token = await getToken(); // Get the JWT
       console.log(token, "tokenjdhvh ");
       const response = await axios.post(
-        `http://localhost:2500/api/chat/group`,
+        `https://messagingappbackend-4.onrender.com/api/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((user) => user._id)),
@@ -216,7 +216,7 @@ const getImage = (user: UserState, users: any[]) => {
   </CardContent>
 ) : (
   <CardContent>
-    <p>Loading...</p>
+    <p>...</p>
   </CardContent>
 )}
 

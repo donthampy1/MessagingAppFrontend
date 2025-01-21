@@ -1,7 +1,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -12,6 +11,8 @@ import {  SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
+import ScrollableFeed from 'react-scrollable-feed';
+
 
 interface AiChatComponentProps {
   open: boolean;
@@ -32,15 +33,13 @@ const AiChatComponent: React.FC<AiChatComponentProps> = ( { open,
       return
     }
 try{
-        console.log(chatHistory)
 
-  console.log('startted', query, chatHistory)
      
       const token = await getToken(); // Get the JWT
         setQuery("");
 
       const response = await axios.post(
-  `http://localhost:2500/api/aichat/`,
+  `https://ourchat-delta.vercel.app/api/aichat/`,
   {  // Sending data in the request body
     history: chatHistory,
     query: query,
@@ -72,23 +71,36 @@ try{
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange} > {/* You might want to control this with state */}
-      <DialogContent className="w-[1000px] h-5/6 p-6 bg-white rounded-lg shadow-lg flex flex-col"> {/* Added flex column */}
+      <DialogContent className="w-[1000px]  h-5/6 p-6 bg-white rounded-lg shadow-lg flex flex-col"> {/* Added flex column */}
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">AI Chat</DialogTitle>
-          <DialogDescription className="text-sm text-gray-600 mt-2">
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          
         </DialogHeader>
-        {/* Added a div to contain the content and push the footer down */}
+
+       <ScrollableFeed className="flex flex-col justify-end overflow-y-auto p-4 bg-gray-200 rounded-lg">
+          {chatHistory.map((message:any, index:number) => (
+            <div
+              key={index}
+              className={`p-2 my-2 rounded-md ${
+                message.role === "user"
+                  ? "bg-black text-white self-end"
+                  : "bg-black text-white self-start"
+              }`}
+            >
+              {message.parts.map((part:any, partIndex:number) => (
+                <p key={partIndex} >
+                  {part}
+                </p>
+              ))}
+            </div>
+          ))}
+        </ScrollableFeed>
         <div className="flex-grow">
-        {/* Add your main content here if needed */}
         </div>
-        <button onClick={() => console.log(chatHistory)}>checj</button>
         <DialogFooter>
           <form onSubmit={handleQuerySubmit} className="flex items-center w-full space-x-2">
             <Input placeholder="Type your message..." className="flex-grow" value={query}
-                            onChange={(e) => setQuery(e.target.value)} /> {/* Added flex-grow to input */}
+                            onChange={(e) => setQuery(e.target.value)} /> 
             
             <Button type="submit">
               <SendHorizontal />
