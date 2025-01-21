@@ -22,7 +22,7 @@ const HomePage = () => {
             picture: user.imageUrl,
           };
           const response = await axios.post(
-            "https://ourchat-delta.vercel.app/api/user/login",
+            "https://messagingappbackend-4.onrender.com/api/user/login",
             userData
           );
           console.log("User data sent successfully:", response.data);

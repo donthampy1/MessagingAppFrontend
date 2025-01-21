@@ -60,7 +60,7 @@ const ChatBox = () => {
       const token = await getToken();
       setLoading(true);
       const response = await axios.get(
-        `https://ourchat-delta.vercel.app/api/message/${selectedChat._id}`,
+        `https://messagingappbackend-4.onrender.com/api/message/${selectedChat._id}`,
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -97,8 +97,6 @@ const ChatBox = () => {
 
   const handleMessageSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("jk jdsh fjvhbdhb");
-    console.log(newMessage.length, newMessage);
     if (!newMessage) {
       console.log("enter message");
       return;
@@ -107,7 +105,7 @@ const ChatBox = () => {
       setNewmessage("");
       const token = await getToken(); // Get the JWT
       const response = await axios.post(
-        `http://localhost:2500/api/message/${selectedChat._id}`,
+        `https://messagingappbackend-4.onrender.com/api/message/${selectedChat._id}`,
         {
           content: newMessage,
           chatId: selectedChat._id,

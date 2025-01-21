@@ -51,7 +51,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       const token = await getToken(); // Get the JWT
       console.log(token, "tokenjdhvh ");
       const response = await axios.get(
-        `https://ourchat-delta.vercel.app/api/user/search?search=${search}&userId=${user._id}`, // userId as query parameter
+        `https://messagingappbackend-4.onrender.com/api/user/search?search=${search}&userId=${user._id}`, // userId as query parameter
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
@@ -68,18 +68,18 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
   };
 
   const accessChat = async (userId: string) => {
-    const token = await getToken(); // Get the JWT
+    const token = await getToken();
     const init = user._id;
     try {
       const response = await axios.post(
-        `https://ourchat-delta.vercel.app/api/chat`, // Replace with your endpoint
-        { userId, init }, // Data payload for POST request
+        `https://messagingappbackend-4.onrender.com/api/chat`,
+        { userId, init }, 
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
-            "Content-Type": "application/json", // Ensure proper content type
+            "Content-Type": "application/json", 
           },
-          withCredentials: true, // Include credentials like cookies if needed
+          withCredentials: true,
         }
       );
       dispatch(setChat(response.data));
@@ -87,7 +87,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       console.log(response.data, "Response from server");
       return response.data;
     } catch (error) {
-      console.error("Error creating chat:", error); // Optionally re-throw the error for further handling
+      console.error("Error creating chat:", error); 
     }
   };
 

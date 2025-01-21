@@ -20,7 +20,7 @@ const ChatPage = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get<Chat[]>(
-        "https://ourchat-delta.vercel.app/api/chat"
+        "https://messagingappbackend-4.onrender.com/api/chat"
       );
       setChats(response.data);
     } catch (error) {

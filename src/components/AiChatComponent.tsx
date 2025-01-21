@@ -35,23 +35,22 @@ const AiChatComponent: React.FC<AiChatComponentProps> = ( { open,
 try{
 
      
-      const token = await getToken(); // Get the JWT
+      const token = await getToken();
         setQuery("");
 
       const response = await axios.post(
-  `https://ourchat-delta.vercel.app/api/aichat/`,
-  {  // Sending data in the request body
+  `https://messagingappbackend-4.onrender.com/api/aichat/`,
+  {  
     history: chatHistory,
     query: query,
   },
-  {  // Configuratilike headers go here
+  {  
     headers: {
       Authorization: token ? `Bearer ${token}` : undefined,
     },
   }
 );
 
-    console.log("jnkj", query)
     setChatHistory((oldChatHistory: any) => [...oldChatHistory, {
       role: "user",
       parts: [query]
