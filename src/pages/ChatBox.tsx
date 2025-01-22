@@ -19,13 +19,8 @@ import io, { Socket } from "socket.io-client"
 
 
 
-const EndPoint = "https://ourchat-delta.vercel.app"
+const EndPoint = "http://localhost:3000"
 let socket: Socket<any>,selectedChatCompare: { _id: any; }
-
-
-
-
-
 
 
 const ChatBox = () => {
@@ -44,7 +39,7 @@ const ChatBox = () => {
 
  useEffect(() => {
   socket = io(EndPoint)
-  console.log("kjnjd",user,socketConnected,loading,notification)
+  console.log("k",user,socketConnected,loading,notification)
   socket.emit("setup", user)
   socket.on("connected",()=> setSocketConnected(true))
   
@@ -103,7 +98,7 @@ const ChatBox = () => {
     }
     try {
       setNewmessage("");
-      const token = await getToken(); // Get the JWT
+      const token = await getToken(); 
       const response = await axios.post(
         `https://messagingappbackend-4.onrender.com/api/message/${selectedChat._id}`,
         {
@@ -118,7 +113,7 @@ const ChatBox = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data,"llllll");
+      console.log(response.data,"l");
       setNewmessage("");
       socket.emit("new message", response.data)
       setMessages([...messages, response.data]);
@@ -135,13 +130,13 @@ const ChatBox = () => {
 useEffect(() => {
   socket.on("message recieved", (newMessageRecieved:any) => {
     if (selectedChatCompare && selectedChatCompare._id === newMessageRecieved.chat._id) {
- setMessages([...messages, newMessageRecieved])    }
+ setMessages((prevMessages: any) => [...prevMessages, newMessageRecieved]);}
   })
 },[])
 
   return (
     <>
-     <Card className="w-2/3 flex flex-col relative"> {/* Added relative here */}
+     <Card className="w-2/3 flex flex-col relative"> 
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <CardTitle>
@@ -150,8 +145,7 @@ useEffect(() => {
                     </div>
                 </CardHeader>
 
-               <CardContent className="overflow-y-auto h-full  flex flex-col"> {/* Example fixed height for the scrollable container */}
-  {/* Your Chat Messages Component Here */}
+               <CardContent className="overflow-y-auto h-full  flex flex-col"> 
   <div className=" overflow-y-auto h-full">
     <ChatMessages messages={messages} />
   </div>
@@ -159,8 +153,7 @@ useEffect(() => {
 
 
 
-                {/* Form Section - Absolutely positioned at Bottom */}
-                <CardFooter className="  "> {/* Added absolute positioning */}
+                <CardFooter className="  "> 
                     <form
                         onSubmit={handleMessageSubmit}
                         className="flex items-center  h-full w-full space-x-2"

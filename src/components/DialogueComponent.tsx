@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import UserListItem from "./ui/UserListItem";
 import { setChat } from "../store/chatSlice";
+import { setBoolean } from '../store/newSlice';
 
 interface UserState {
   _id: string;
@@ -37,6 +38,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
   const { getToken } = useAuth();
   const user: UserState | null = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+  const booleanValue = useSelector((state: any) => state.booleanState.value);
 
   const handleSearch = async () => {
     setLoading(true);
@@ -45,7 +47,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       return;
     }
     const { _id } = user;
-    console.log(_id);
+    console.log(_id, search);
     try {
       const token = await getToken(); 
       const response = await axios.get(
@@ -59,6 +61,7 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
       );
       setLoading(false);
       setSearchResult(response.data);
+      console.log(response.data,"from addin users")
     } catch (error) {
       console.error("error", error);
     }
@@ -80,7 +83,8 @@ const DialogComponent: React.FC<DialogComponentProps> = ({
         }
       );
       dispatch(setChat(response.data));
-
+      dispatch(setBoolean(!booleanValue))
+      console.log(booleanValue)
       console.log(response.data, "Response from server");
       return response.data;
     } catch (error) {

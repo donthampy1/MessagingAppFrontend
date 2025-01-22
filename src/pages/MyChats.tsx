@@ -50,6 +50,8 @@ const MyChats = () => {
   const [searchResult, setSearchResult] = useState<UserState[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<UserState[]>([]);
   const dispatch = useDispatch();
+  const booleanValue = useSelector((state: any) => state.booleanState.value); // Access booleanState
+
 
   const handleChatClick = (chat: any) => {
     dispatch(setSelectedChat(chat)); 
@@ -69,7 +71,7 @@ const MyChats = () => {
         }
       );
       setchatdatas(response.data);
-      console.log(response.data, "chats");
+      console.log(response.data, "chats triggerer");
     } catch (error) {
       console.error("error", error);
     }
@@ -78,13 +80,17 @@ const MyChats = () => {
   useEffect(() => {
     if (user && user._id) {
       fetchChats();
+    }else{
+    console.log(booleanValue,"run")
+
     }
-  }, [user]);
+  }, [user,booleanValue]);
+
   const getSender = (user: UserState, users: any[]) => {
-    console.log(user,"this is user", users)
-    if (users.length < 2) {
-    return 'User'
-  }
+    console.log(user,"this isuser", users)
+    if(users.length == 1){
+      return user.username
+    }
     return users[0]._id === user._id ? users[1].username : users[0].username;
   };
 
@@ -97,7 +103,7 @@ const MyChats = () => {
     try {
       setLoading(true);
       const token = await getToken(); 
-      console.log(token, "tokenjdhvh ");
+      //console.log(token, "tokenjdhvh ");
       const response = await axios.get(
         `https://messagingappbackend-4.onrender.com/api/user/search?search=${search}&userId=${user._id}`, 
         {
@@ -120,11 +126,11 @@ const MyChats = () => {
     if(!groupChatName ||!selectedUsers){
       return
     }
+    console.log(groupChatName)
     try{
-       const token = await getToken(); // Get the JWT
-      console.log(token, "tokenjdhvh ");
+       const token = await getToken(); 
       const response = await axios.post(
-        `https://messagingappbackend-4.onrender.com/api/chat/group`,
+        `http://localhost:3000/api/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((user) => user._id)),
@@ -141,15 +147,9 @@ const MyChats = () => {
       setchatdatas([response.data,...chatdatas])
 
 
-
-
     }catch(error){
       console.log(error)
     }
-
-
-
-
   };
   const handleGroup = (user: UserState) => {
     if (selectedUsers.includes(user)) {
@@ -201,7 +201,7 @@ const getImage = (user: UserState, users: any[]) => {
               : chat.chatName}
           </AlertTitle>
           <AlertDescription className="text-sm text-gray-500">
-            {user.email}hoyiyiy
+            {user.email}
           </AlertDescription>
         </div>
       </Alert>

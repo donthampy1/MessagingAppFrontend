@@ -34,6 +34,15 @@ const AiChatComponent: React.FC<AiChatComponentProps> = ( { open,
     }
 try{
 
+      const updatedChatHistory = [
+    ...chatHistory,
+    {
+      role: "user",
+      parts: [query],
+    },
+  ];
+
+  setChatHistory(updatedChatHistory);
      
       const token = await getToken();
         setQuery("");
@@ -51,15 +60,13 @@ try{
   }
 );
 
-    setChatHistory((oldChatHistory: any) => [...oldChatHistory, {
-      role: "user",
-      parts: [query]
-    },
+      setChatHistory([
+    ...updatedChatHistory,
     {
       role: "model",
-      parts: [response.data]
-    }
-  ])
+      parts: [response.data],
+    },
+  ]);
   console.log(response.data, chatHistory)
   }catch(error){
     console.log(error)

@@ -3,6 +3,7 @@ import userReducer from "./userSlice";
 import chatReducer from './chatSlice'
 import currentChatReducer from './currentChatSlice';
 import notificationReducer from './notificationSlice';
+import booleanReducer from './newSlice';
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
     user: userReducer,
         chat: chatReducer,
         currentChat: currentChatReducer,
-        notifications: notificationReducer
+        notifications: notificationReducer,
+        booleanState: booleanReducer
   },
 });
 
