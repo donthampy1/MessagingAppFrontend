@@ -19,7 +19,7 @@ import io, { Socket } from "socket.io-client"
 
 
 
-const EndPoint = "http://localhost:3000"
+const EndPoint = "https://messagingappbackend-4.onrender.com"
 let socket: Socket<any>,selectedChatCompare: { _id: any; }
 
 
